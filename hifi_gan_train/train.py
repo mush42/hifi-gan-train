@@ -7,7 +7,6 @@ import torch
 import torch.nn.functional as F
 from torch.cuda.amp import GradScaler, autocast
 from torch.utils.data import DataLoader
-from tqdm import tqdm
 
 from .checkpoint import Checkpoint, save_checkpoint
 from .config import TrainingConfig
@@ -48,7 +47,7 @@ def train(
         scaler = GradScaler()
 
     # Begin training
-    for epoch in tqdm(range(1, config.epochs + 1)):
+    for epoch in range(1, config.epochs + 1):
         _LOGGER.debug(
             "Begin epoch %s/%s (global step=%s)", epoch, config.epochs, global_step
         )

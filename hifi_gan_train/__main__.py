@@ -134,7 +134,7 @@ def main():
         dataset,
         shuffle=(not is_distributed),
         batch_size=batch_size,
-        num_workers=config.num_workers,
+        num_workers=os.cpu_count(),
         pin_memory=True,
         drop_last=True,
         sampler=sampler,
