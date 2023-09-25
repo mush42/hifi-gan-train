@@ -1,6 +1,4 @@
 import logging
-import os
-import shutil
 import time
 import typing
 from pathlib import Path
@@ -67,16 +65,6 @@ def train(
 
         if ((epoch % checkpoint_epochs) == 0) and (rank == 0):
             # Save checkpoint
-            # First, clean all previous checkpoints
-            _LOGGER.debug("preparing to save checkpoint...")
-            _LOGGER.debug("cleaning old checkpoints...")
-            old_checkpoints = [
-                os.fspath(d)
-                for d in Path(model_dir).iterdir()
-                if d.name.startswith("checkpoint_") and d.is_dir()
-            ]
-            for old_checkpoint in old_checkpoints:
-                shutil.rmtree(old_checkpoint, ignore_errors=True)
             checkpoint_dir = model_dir / f"checkpoint_{global_step}"
             _LOGGER.debug("Saving checkpoint to %s", checkpoint_dir)
             save_checkpoint(

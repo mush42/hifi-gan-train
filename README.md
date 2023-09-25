@@ -1,6 +1,3 @@
-# Forked from https://github.com/rhasspy/hifi-gan-train
-
-
 # Hi-Fi GAN
 
 Version of [Hi-Fi GAN](https://github.com/jik876/hifi-gan) designed to work with

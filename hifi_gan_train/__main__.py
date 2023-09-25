@@ -5,7 +5,6 @@ import os
 import random
 import sys
 import typing
-from io import StringIO
 from pathlib import Path
 
 import torch
@@ -32,7 +31,6 @@ def main():
         "--batch-size", type=int, help="Batch size (default: use config)"
     )
     parser.add_argument("--checkpoint", help="Directory to restore checkpoint")
-    parser.add_argument("--wav-filelist", help="File containing list of wave file paths", required=False)
     parser.add_argument(
         "--checkpoint-epochs",
         type=int,
@@ -104,18 +102,11 @@ def main():
     random.seed(config.seed)
 
     # Load wav paths
-    if args.wav_filelist:
-        content = Path(args.wav_filelist).read_text()
-        wav_list = StringIO(content)
-    elif os.isatty(sys.stdin.fileno()):
+    if os.isatty(sys.stdin.fileno()):
         print("Reading WAV path(s) from stdin...", file=sys.stderr)
-        wav_list = sys.stdin
-    else:
-        _LOGGER.error("Wav list file not provided or invalid")
-        sys.exit(-1)
 
     wav_paths = []
-    for line in wav_list:
+    for line in sys.stdin:
         line = line.strip()
         if line:
             wav_paths.append(Path(line))
@@ -134,7 +125,7 @@ def main():
         dataset,
         shuffle=(not is_distributed),
         batch_size=batch_size,
-        num_workers=os.cpu_count(),
+        num_workers=config.num_workers,
         pin_memory=True,
         drop_last=True,
         sampler=sampler,

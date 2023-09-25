@@ -87,11 +87,11 @@ class MelDataset(torch.utils.data.Dataset):
             mel_basis = (
                 torch.from_numpy(
                     librosa_mel_fn(
-                        sr=self.sampling_rate,
-                        n_fft=self.n_fft,
-                        n_mels=self.config.audio.num_mels,
-                        fmin=self.config.audio.mel_fmin,
-                        fmax=self.config.audio.mel_fmax,
+                        self.sampling_rate,
+                        self.n_fft,
+                        self.config.audio.num_mels,
+                        self.config.audio.mel_fmin,
+                        self.config.audio.mel_fmax,
                     )
                 )
                 .float()

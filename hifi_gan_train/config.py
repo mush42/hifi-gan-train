@@ -1,5 +1,5 @@
 """Configuration classes"""
-import collections.abc
+import collections
 import json
 import typing
 from dataclasses import dataclass, field
@@ -95,7 +95,7 @@ class TrainingConfig(DataClassJsonMixin):
     ) -> None:
         """Recursively overwrites values in base dictionary with values from new dictionary"""
         for k, v in new_dict.items():
-            if isinstance(v, collections.abc.Mapping) and (base_dict.get(k) is not None):
+            if isinstance(v, collections.Mapping) and (base_dict.get(k) is not None):
                 TrainingConfig.recursive_update(base_dict[k], v)
             else:
                 base_dict[k] = v
