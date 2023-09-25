@@ -18,7 +18,7 @@ OPSET_VERSION = 12
 
 def main():
     """Main entry point"""
-    parser = argparse.ArgumentParser(prog="glow-tts-export-onnx")
+    parser = argparse.ArgumentParser(prog="hi-fi-gan-train.export_onnx")
     parser.add_argument("checkpoint", help="Path to model checkpoint (.pth)")
     parser.add_argument("output", help="Path to output onnx model")
     parser.add_argument(
@@ -59,7 +59,7 @@ def main():
 
     # Load checkpoint
     _LOGGER.debug("Loading checkpoint from %s", args.checkpoint)
-    checkpoint = load_checkpoint(args.checkpoint, config)
+    checkpoint = load_checkpoint(args.checkpoint, config, use_cuda=False)
     generator = checkpoint.training_model.generator
 
     _LOGGER.info(
@@ -82,14 +82,14 @@ def main():
         output_path = args.output
 
     # Create dummy input
-    dummy_input = to_gpu(torch.randn((1, config.audio.num_mels, 50), dtype=torch.float))
+    dummy_input = torch.randn((1, config.audio.num_mels, 50), dtype=torch.float)
 
     # Export
     torch.onnx.export(
         generator,
         dummy_input,
         str(output_path),
-        opset_version=12,
+        opset_version=15,
         do_constant_folding=True,
         input_names=["mel"],
         output_names=["audio"],
