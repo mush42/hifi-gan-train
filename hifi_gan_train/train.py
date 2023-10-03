@@ -65,7 +65,7 @@ def train(
 
         if ((epoch % checkpoint_epochs) == 0) and (rank == 0):
             # Save checkpoint
-            checkpoint_dir = model_dir / f"checkpoint_{global_step}"
+            checkpoint_dir = model_dir / "checkpoints"
             _LOGGER.debug("Saving checkpoint to %s", checkpoint_dir)
             save_checkpoint(
                 Checkpoint(
