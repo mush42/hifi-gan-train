@@ -48,10 +48,6 @@ def main():
 
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
-
-        # Disable numba logger
-        numba_logger = logging.getLogger("numba")
-        numba_logger.setLevel(logging.WARNING)
     else:
         logging.basicConfig(level=logging.INFO)
 
